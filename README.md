@@ -8,9 +8,11 @@ This project is built to handle high concurrency requests in a situation such as
 
 The web application is setup in django+uwsgi+postgres on a single machine
 baseline:
+```
 uwsgi --http :8000 --module ConcurBooking.wsgi --master --processes 1 --threads 4
-The pressure test using ab command ab -n 10000 -c 1000 http://localhost:8000/ give the following results:
-
+```
+The pressure test using ab command ```ab -n 10000 -c 1000 http://localhost:8000/``` give the following results:
+```
 Concurrency Level:      1000
 Time taken for tests:   61.315 seconds
 Complete requests:      10000
@@ -40,3 +42,4 @@ Percentage of the requests served within a certain time (ms)
   98%  61262
   99%  61272
  100%  61312 (longest request)
+```
