@@ -131,7 +131,7 @@ LOGGING = {
     'disable_existing_loggers': False,
     'handlers': {
         'file': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': LOGGER_PATH,
         },
@@ -139,8 +139,18 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['file'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
     },
+}
+
+REDIS_SERVER_CONF = {
+    'servers': {
+      'main_server': {
+        'HOST': '127.0.0.1',
+        'PORT': 6379,
+        'DATABASE': 0
+    }
+  }
 }
