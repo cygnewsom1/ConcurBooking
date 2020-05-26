@@ -3,7 +3,7 @@
 This project is to explore the performance impact on one possible system design to handle the burst requests of users trying to get the same item concurrently.
 
 ## Architecture
-[architecture for this project](./architecture.png)
+![architecture for this project](./architecture.png)
 
 The web application is setup on the stack of django + uwsgi + redis + postgres on a single vitual box.
 baseline:
