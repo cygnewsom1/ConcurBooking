@@ -1,45 +1,25 @@
 # ConcurBooking
-A low latency high scalable system designed to handle burst concurrency requests 
 
-This project is built to handle high concurrency requests in a situation such as ticket booking for a hot sports event. The requirement of the system includes:
-* Sell the tickets accurately, no oversold, no understold
-* Respond to users in low latency
-* Reliable under the pressure of high amount of requests
+This project is to explore the performance impact on one possible system design to handle the burst requests of users trying to get the same item concurrently.
 
-The web application is setup in django+uwsgi+postgres on a single machine
+## Architecture
+![architecture for this project](./architecture.png)
+
+The web application is setup on the stack of django + uwsgi + redis + postgres on a single vitual box.
 baseline:
 ```
 uwsgi --http :8000 --module ConcurBooking.wsgi --master --processes 1 --threads 4
 ```
-The pressure test using ab command ```ab -n 10000 -c 1000 http://localhost:8000/``` give the following results:
+The pressure test using ab command ```ab -n 1000 -c 100 http://localhost:8000/```. The column webapp is used for testing 100 concurrent requests trying to get 50 items. The column baseline is based on respond to the request directly with "OK". In comparison, the webapp adds 6% to 28% processing time.
 ```
-Concurrency Level:      1000
-Time taken for tests:   61.315 seconds
-Complete requests:      10000
-Failed requests:        744
-   (Connect: 0, Receive: 0, Length: 744, Exceptions: 0)
-Total transferred:      152483344 bytes
-HTML transferred:       151344856 bytes
-Requests per second:    163.09 [#/sec] (mean)
-Time per request:       6131.487 [ms] (mean)
-Time per request:       6.131 [ms] (mean, across all concurrent requests)
-Transfer rate:          2428.60 [Kbytes/sec] received
-
-Connection Times (ms)
-              min  mean[+/-sd] median   max
-Connect:        0    5  15.8      0      76
-Processing:    86 5669 16250.7    448   61238
-Waiting:        0 1286 5667.5    436   56160
-Total:        150 5674 16263.8    448   61312
-
-Percentage of the requests served within a certain time (ms)
-  50%    448
-  66%    475
-  75%   1436
-  80%   1463
-  90%   3527
-  95%  61238
-  98%  61262
-  99%  61272
- 100%  61312 (longest request)
+    webapp     baseline
+50%   180       140	  1.28
+66%   187       147	  1.27
+75%   195	154	  1.26
+80%   199	157	  1.26
+90%   210	181	  1.16
+95%   220	209	  1.05
+98%   236	217	  1.08
+99%   239	220	  1.08
+100%  244       230	  1.06
 ```
