@@ -78,8 +78,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'psdb',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASS'],
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
@@ -150,7 +150,8 @@ REDIS_SERVER_CONF = {
       'main_server': {
         'HOST': '127.0.0.1',
         'PORT': 6379,
-        'DATABASE': 0
+        'DATABASE': 0,
+        'MAX_CONNECTIONS': 10
     }
   }
 }
